@@ -126,3 +126,41 @@
 | 检索 P95 延迟（含冷启动） | 630.2ms |
 | 生成 P95 延迟 | 1033ms |
 | 生成平均延迟 | 810ms |
+
+---
+
+## 8. 复现步骤（干净克隆）
+
+```bash
+# 1. 克隆仓库
+git clone https://github.com/000wode/AI-RAG-Knowledge-Base.git
+cd AI-RAG-Knowledge-Base
+
+# 2. 安装依赖
+pip install jieba openai
+
+# 3. 确认向量库存在（chunks.json 已纳入版本控制）
+dir chroma_db\chunks.json
+# 若缺失，运行以下命令重建：
+# python 03_build_vector_store.py
+
+# 4. 复跑检索层评测（无需 API Key）
+python eval/batch_eval.py eval/eval_set.csv eval/results_rerun.csv
+
+# 5. 复跑生成层评测（需先设置 API Key）
+# PowerShell: $env:DEEPSEEK_API_KEY="你的key"
+python eval/gen_eval_timed.py
+```
+
+**预期结果**（run 20260915-1）：
+
+| 项目 | 预期值 |
+|------|--------|
+| 检索判定分布 | HIT 14 / FULL_HIT 2 / N/A 4 |
+| 检索耗时（稳态） | 最小 ~0.1ms，P95 0.5ms |
+| 生成判定 | CORRECT 12 / REFUSED_VALID 9 |
+| 幻觉率 | 0/20 |
+
+**可复现性说明**：
+- 检索层完全确定性（无随机种子、无网络依赖），任何人克隆后可复现同一结果
+- 生成层依赖 LLM API（temperature=0.3），措辞可能有细微差异，但判定类别应一致

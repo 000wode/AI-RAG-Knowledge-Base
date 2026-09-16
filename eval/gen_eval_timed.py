@@ -34,6 +34,19 @@ def cosine(v1, v2):
     n2 = math.sqrt(sum(x*x for x in v2.values()))
     return 0 if n1 == 0 or n2 == 0 else dot/(n1*n2)
 
+def judge_retrieval(expected, top1, ranked):
+    """按 eval_methodology.md §1 判定检索命中"""
+    if expected == "none":
+        return "N/A"
+    if "+" in expected:
+        expected_list = [int(x) for x in expected.split("+")]
+        top2 = [i + 1 for i in ranked[:2]]
+        if top1 in expected_list:
+            others = [e for e in expected_list if e != top1]
+            return "FULL_HIT" if all(o in top2 for o in others) else "PARTIAL_HIT"
+        return "MISS"
+    return "HIT" if str(top1) == expected else "MISS"
+
 rows = []
 with open("./eval/eval_set.csv", "r", encoding="utf-8") as f:
     testset = list(csv.DictReader(f))
@@ -45,11 +58,12 @@ for row in testset:
     t0 = time.perf_counter()
     q_vec = get_query_vector(q)
     scores = [cosine(q_vec, v) for v in vectors]
-    top1 = scores.index(max(scores))
+    ranked = sorted(range(len(scores)), key=lambda i: -scores[i])
+    top1 = ranked[0]
     context = chunks[top1]
     t_retrieval = (time.perf_counter() - t0) * 1000   # ms
 
-    hit = "YES" if str(top1+1) in row["expected_chunk"] else "NO"
+    verdict = judge_retrieval(row["expected_chunk"], top1 + 1, ranked)
 
     prompt = f"""基于以下信息回答问题。如果信息不够，直接说不知道。
 
@@ -73,7 +87,7 @@ for row in testset:
         answer = f"[API错误] {e}"
     t_gen = (time.perf_counter() - t1) * 1000
 
-    print(f"[{row['id']}] 检索 {t_retrieval:.1f}ms | 生成 {t_gen:.0f}ms | hit={hit}")
+    print(f"[{row['id']}] 检索 {t_retrieval:.1f}ms | 生成 {t_gen:.0f}ms | {verdict}")
 
     rows.append({
         "id": row["id"],
@@ -81,7 +95,7 @@ for row in testset:
         "question": q,
         "expected_chunk": row["expected_chunk"],
         "top1_chunk": top1 + 1,
-        "retrieval_hit": hit,
+        "retrieval_verdict": verdict,
         "retrieval_ms": round(t_retrieval, 2),
         "generation_ms": round(t_gen, 1),
         "context": context,

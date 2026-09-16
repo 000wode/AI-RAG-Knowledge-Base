@@ -3,8 +3,9 @@ config.py
 .env
 *.key
 
-# ── 向量数据库（运行时生成）──
-chroma_db/
+# ── 向量库 ──
+# chroma_db/ 已纳入版本控制：chunks.json 为确定性构建产物（3.7KB），
+# 是评测复现的必需输入。如需重建：python 03_build_vector_store.py
 
 # ── Python ──
 __pycache__/

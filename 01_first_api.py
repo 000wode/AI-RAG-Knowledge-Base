@@ -3,8 +3,9 @@
 
 from openai import OpenAI
 
-# 把你的API Key填在这里（正式发到GitHub前记得删掉这个Key）
-API_KEY = "***REMOVED***"
+# API Key 从环境变量读取（运行前先设置 DEEPSEEK_API_KEY）
+import os
+API_KEY = os.environ.get("DEEPSEEK_API_KEY")
 
 client = OpenAI(
     api_key=API_KEY,
