@@ -1,0 +1,41 @@
+PS C:\Users\llh21\Desktop\AI-RAG-Knowledge-Base> python eval/gen_eval_timed.py
+Building prefix dict from the default dictionary ...
+Loading model from cache C:\Users\llh21\AppData\Local\Temp\jieba.cache
+Loading model cost 0.630 seconds.
+Prefix dict has been built successfully.
+[1] 检索 630.2ms | 生成 1810ms | hit=YES
+[2] 检索 0.1ms | 生成 575ms | hit=YES
+[3] 检索 0.1ms | 生成 899ms | hit=YES
+[4] 检索 0.1ms | 生成 777ms | hit=YES
+[5] 检索 0.1ms | 生成 742ms | hit=YES
+[6] 检索 0.1ms | 生成 898ms | hit=YES
+[7] 检索 0.3ms | 生成 820ms | hit=NO
+[8] 检索 0.5ms | 生成 523ms | hit=NO
+[9] 检索 0.3ms | 生成 793ms | hit=YES
+[10] 检索 0.1ms | 生成 1033ms | hit=YES
+[11] 检索 0.1ms | 生成 846ms | hit=YES
+[12] 检索 0.4ms | 生成 644ms | hit=YES
+[13] 检索 0.2ms | 生成 721ms | hit=YES
+[14] 检索 0.3ms | 生成 793ms | hit=YES
+[15] 检索 0.1ms | 生成 662ms | hit=YES
+[16] 检索 0.2ms | 生成 416ms | hit=NO
+[17] 检索 0.1ms | 生成 744ms | hit=NO
+[18] 检索 0.2ms | 生成 827ms | hit=YES
+[19] 检索 0.2ms | 生成 689ms | hit=YES
+[20] 检索 0.4ms | 生成 980ms | hit=YES
+
+==================================================
+延迟统计（20 题）
+检索  平均 31.7ms | P95 0.5ms | 最大 630.2ms
+生成  平均 810ms | P95 1033ms | 最大 1810ms
+
+结果已保存到 ./eval/results_gen_timed.csv
+PS C:\Users\llh21\Desktop\AI-RAG-Knowledge-Base>
+
+──────────────────────────────────────────────────
+备注：
+- 题 1 检索耗时 630.2ms 为冷启动（jieba 词典首次加载），不计入稳态统计
+- 题 2-20 检索耗时稳定在 0.1-0.5ms
+- hit=NO 的 4 题为无答案题（7/8/16/17），预期块为 none，属预期行为，不计入命中率分母
+- 运行 ID：20260915-1
+- 运行环境：Windows 11 / Python 3.x / jieba 0.42.1 / deepseek-chat (temperature=0.3)
