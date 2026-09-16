@@ -4,7 +4,8 @@ import json, math
 from collections import Counter
 import jieba
 
-API_KEY = "***REMOVED***"
+import os
+API_KEY = os.environ.get("DEEPSEEK_API_KEY")   # 从环境变量读取，切勿硬编码
 client = OpenAI(api_key=API_KEY, base_url="https://api.deepseek.com")
 
 with open("./chroma_db/chunks.json", "r", encoding="utf-8") as f:
