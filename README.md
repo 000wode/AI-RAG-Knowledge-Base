@@ -5,13 +5,13 @@
 |------|------|
 | 01_first_api.py | 大模型 API 首次调用 |
 | 02_chat_with_memory.py | 带上下文记忆的多轮对话 |
-| 03_build_vector_store.py | 文档切块 + Chroma 向量化存储 |
-| 04_rag_query.py | 向量检索 + 生成回答 |
+| 03_build_vector_store.py | 文档切块 + jieba/TF-IDF 权重向量构建；当前输出为 `chroma_db/chunks.json`，不是接入主链路的 Chroma 查询实现 |
+| 04_rag_query.py | TF-IDF + 余弦相似度检索，拼接上下文后生成回答 |
 | 05_rag_app.py | 完整的 RAG 问答应用 |
 ## 技术栈
 - Python
 - 大模型 API
-- Chroma 向量数据库
+- jieba + TF-IDF + 余弦相似度
 - RAG 架构（检索增强生成）
 ## 学习路径
 1. 理解 LLM API 调用 → 2. 对话记忆 → 3. 向量化 → 4. RAG 问答
@@ -39,6 +39,7 @@ python eval/gen_eval_timed.py
 
 当前 v2 生成层结果、统计口径和 v1 归档说明见 `eval/README.md`。知识库仅 7 行、2 个文本块，评测结果不代表泛化检索质量。
 
-## 附录：隔离实验
+## 补充材料
 
-- [Chroma 隔离实验](experiments/chroma_experiment/README.md)：使用既有 TF-IDF 向量验证 chromadb 建库、入库和查询流程；未接入主链路。
+- [失败与边界案例](eval/failure_cases.md)
+- [Chroma 隔离实验](experiments/chroma_experiment/README.md)：仅验证既有 TF-IDF 向量写入真实 `chromadb.PersistentClient` 的建库、入库、查询和持久化路径；未接入主链路，不代表语义检索能力或泛化质量。
