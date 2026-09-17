@@ -1,0 +1,33 @@
+{
+  "status": "completed",
+  "script_version": "chroma_tfidf_experiment v1 (2026-09-17)",
+  "run_id": "20260917-102408",
+  "started_at": "2026-09-17T10:24:08",
+  "finished_at": "2026-09-17T10:24:09",
+  "python_version": "3.14.6",
+  "chromadb_version": "1.5.9",
+  "jieba_version": "0.42.1",
+  "numpy_version": "2.5.1",
+  "sklearn_version": "1.9.0",
+  "chunks": 2,
+  "vocabulary_size": 108,
+  "questions": 20,
+  "chroma_collection_count": 2,
+  "verdict_distribution": {
+    "HIT": 14,
+    "FULL_HIT": 2,
+    "N/A": 4
+  },
+  "retrieval_ms": {
+    "min": 0.9,
+    "mean": 1.37,
+    "p95": 1.81,
+    "max": 2.11
+  },
+  "baseline_match_count": 20,
+  "baseline_differences": [],
+  "results_csv": "_输出\\03_修改稿\\06_离线验证证据\\20260917_P0-05_Chroma实验\\results_20260917-102408_chroma_tfidf.csv",
+  "log_file": "_输出\\03_修改稿\\06_离线验证证据\\20260917_P0-05_Chroma实验\\run_20260917-102408_chroma_tfidf.log",
+  "chroma_store": "_输出\\03_修改稿\\06_离线验证证据\\20260917_P0-05_Chroma实验\\chroma_store_20260917-102408",
+  "boundary": "知识库仅 7 行、2 个文本块；结果为隔离实验的流程检查，不代表泛化检索质量。"
+}

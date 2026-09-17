@@ -38,3 +38,7 @@ python eval/gen_eval_timed.py
 ```
 
 当前 v2 生成层结果、统计口径和 v1 归档说明见 `eval/README.md`。知识库仅 7 行、2 个文本块，评测结果不代表泛化检索质量。
+
+## 附录：隔离实验
+
+- [Chroma 隔离实验](experiments/chroma_experiment/README.md)：使用既有 TF-IDF 向量验证 chromadb 建库、入库和查询流程；未接入主链路。
